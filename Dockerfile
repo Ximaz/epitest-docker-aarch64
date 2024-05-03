@@ -5,20 +5,23 @@ COPY dnf.requirements.txt dnf.requirements.txt
 
 ENV LANG=en_US.utf8 LANGUAGE=en_US:en LC_ALL=en_US.utf8 PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
-RUN dnf -y install $(cat "dnf.requirements.txt") \
-    && dnf clean all -y                          \
+
+RUN dnf -y update                                   \
+    && dnf -y upgrade                               \
+    && dnf -y install $(cat "dnf.requirements.txt") \
+    && dnf clean all -y                             \
     && rm -f "dnf.requirements.txt"
 
 RUN localedef -i en_US -f UTF-8 en_US.UTF-8
 
-RUN python3 -m pip install --upgrade pip               \
-    && python3 -m pip install -Iv gcovr==6.0           \
-                                  pycryptodome==3.18.0 \
-                                  requests==2.31.0     \
-                                  pyte==0.8.1          \
-                                  numpy==1.25.2        \
-    && python3 -m pip cache purge                      \
-    && npm install -g npm                              \
+RUN python3 -m pip install --upgrade pip       \
+    && python3 -m pip install -Iv gcovr        \
+                                  pycryptodome \
+                                  requests     \
+                                  pyte         \
+                                  numpy        \
+    && python3 -m pip cache purge              \
+    && npm install -g npm                      \
     && npm install -g bun
 
 # Install Cabal, GHC and Stack using GHCup
