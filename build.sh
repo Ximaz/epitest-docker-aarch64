@@ -24,7 +24,7 @@ function read_opts {
 	while [[ $# -gt 0 ]]; do
 		key="${1}"
 
-		case $key in
+		case "${key}" in
 			-h|--help)
 			usage
 			exit 0
@@ -51,7 +51,7 @@ function build_image {
 	local TAG="${1}"
 	local DOCKER_OPTS="${2}"
 
-	docker build $DOCKER_OPTS --pull --tag "epitechcontent/epitest-docker:${TAG}" .
+	docker build $DOCKER_OPTS --pull --tag "ximaz/epitest-docker-aarch64:${TAG}" .
 
 	if [[ "${?}" -ne 0 ]]; then
 		echo "Failed to build the docker image."
